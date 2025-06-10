@@ -18,3 +18,7 @@
 - Update the model string in `config.py` to your model folder
 - Set up local environment `python deploy.py`
 - Test results `python test_translate.py`
+
+## Demo
+
+- ![Response](demo.png)
