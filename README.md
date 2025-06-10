@@ -4,9 +4,12 @@
 
 - Python: 3.10.11
 
-## Models
+## Model Source
 
 - [Hugging Face](https://huggingface.co/models)
+
+## Models
+
 - [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3/tree/main)
 - [Qwen2-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2-1.5B-Instruct/tree/main)
 
@@ -21,4 +24,4 @@
 
 ## Demo
 
-- ![Response](demo.png)
+- ![Response](demo.jpg)
