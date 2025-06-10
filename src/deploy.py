@@ -5,18 +5,27 @@ from pydantic import BaseModel
 import uvicorn
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from config import Config
+from logger import logger
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 config = Config()
 model_path = os.path.join(BASE_DIR, "..", "models", config.model)
-tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-model = AutoModelForCausalLM.from_pretrained(
-    model_path,
-    device_map="auto",
-    trust_remote_code=True,
-)
+
+try:
+    tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_path,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+    logger.info("Model loaded successfully!")
+except Exception as e:
+    logger.error(f"Failed to load model: {e}")
+    raise
+
 app = FastAPI()
 
 
@@ -71,4 +80,4 @@ async def translate_word(request: TranslateRequest):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

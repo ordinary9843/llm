@@ -12,6 +12,7 @@
 
 ## Usage
 
+- Use `docker-compose up -d`, or install Python locally (recommended)
 - Download model from `Hugging Face`
 - Place it under `./models` directory
 - Update the model string in `config.py` to your model folder
