@@ -6,7 +6,7 @@ from logger import logger
 if __name__ == "__main__":
     config = Config()
     url = f"{config.endpoint}/v1/translate"
-    payload = {"word": "柴犬", "languages": ["zh-TW", "en", "jp-JA"]}
+    payload = {"word": "柴犬", "languages": ["zh-TW", "en", "ja-JP"]}
 
     try:
         response = requests.post(url, json=payload)
