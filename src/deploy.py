@@ -63,7 +63,7 @@ async def translate_word(request: TranslateRequest):
             ).to(model.device)
             outputs = model.generate(
                 inputs.input_ids,
-                max_new_tokens=50,
+                max_new_tokens=500,
                 temperature=0.3,
                 top_p=0.9,
                 do_sample=True,
@@ -77,6 +77,37 @@ async def translate_word(request: TranslateRequest):
         return {"word": word, "translations": translations}
     except Exception as e:
         return {"error": f"Failed to translate: {str(e)}"}
+
+
+class GenerateRequest(BaseModel):
+    prompt: str
+
+
+@app.post("/v1/generate")
+async def generate_text(request: GenerateRequest):
+    try:
+        prompt = (
+            f"<|im_start|>user\n{request.prompt}<|im_end|>\n<|im_start|>assistant\n"
+        )
+        inputs = tokenizer(
+            prompt, return_tensors="pt", truncation=True, max_length=2048
+        ).to(model.device)
+        outputs = model.generate(
+            inputs.input_ids,
+            max_new_tokens=500,
+            temperature=0.7,
+            top_p=0.9,
+            do_sample=True,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+        generated_text = tokenizer.decode(
+            outputs[0][inputs.input_ids.shape[-1] :], skip_special_tokens=True
+        ).strip()
+
+        return {"prompt": request.prompt, "generated_text": generated_text}
+
+    except Exception as e:
+        return {"error": f"Failed to generate text: {str(e)}"}
 
 
 if __name__ == "__main__":
